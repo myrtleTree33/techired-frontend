@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import App from '../app/App';
 
 const Home = () => {
-  return <div>This is the home component</div>;
+  return <App />;
 };
 
 export default Home;

@@ -1,5 +1,15 @@
 import React, { Component } from 'react';
 import { Link, Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import {
+  Button,
+  Container,
+  Divider,
+  Grid,
+  Header,
+  Image,
+  Menu,
+  Segment
+} from 'semantic-ui-react';
 import './App.css';
 import HomeScreen from './screens/Home';
 import ProfileScreen from './screens/Profile';
@@ -28,16 +38,58 @@ class App extends Component {
    * @param {*} param0
    */
   render() {
+    const fixed = true;
     return (
       <div className="App">
-        <header>
-          <Link to="/">Home</Link>
-          <Link to="/profile">Profile</Link>
-        </header>
-        <Switch>
-          <Route exact path="/" component={HomeScreen} />
-          <Route path="/profile" component={ProfileScreen} />
-        </Switch>
+        <Segment>
+          <Menu
+            fixed="top"
+            inverted={!fixed}
+            pointing={!fixed}
+            secondary={!fixed}
+            size="large"
+          >
+            <Container>
+              <Menu.Item as="a">
+                <Link to="/">Home</Link>
+              </Menu.Item>
+              <Menu.Item as="a">
+                <Link to="/profile">Profile</Link>
+              </Menu.Item>
+              <Menu.Item position="right">
+                <Button as="a" inverted={!fixed}>
+                  Log in
+                </Button>
+                <Button
+                  as="a"
+                  inverted={!fixed}
+                  primary={fixed}
+                  style={{ marginLeft: '0.5em' }}
+                >
+                  Sign Up
+                </Button>
+              </Menu.Item>
+            </Container>
+          </Menu>
+        </Segment>
+        {/* <Segment
+          inverted
+          textAlign="center"
+          style={{ minHeight: 700, padding: '1em 0em' }}
+          vertical
+        /> */}
+
+        {/* This is the main body */}
+        <div
+          style={{
+            marginTop: '3rem'
+          }}
+        >
+          <Switch>
+            <Route exact path="/" component={HomeScreen} />
+            <Route path="/profile" component={ProfileScreen} />
+          </Switch>
+        </div>
       </div>
     );
   }
