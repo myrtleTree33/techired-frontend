@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
 import { Link, Switch, Route, Redirect, withRouter } from 'react-router-dom';
-import {
-  Button,
-  Container,
-  Divider,
-  Grid,
-  Header,
-  Image,
-  Menu,
-  Segment
-} from 'semantic-ui-react';
+import { Button, Container, Menu, Segment } from 'semantic-ui-react';
+
 import './App.css';
 import HomeScreen from './screens/Home';
 import ProfileScreen from './screens/Profile';
+import AccountScreen from './screens/Account';
 
 function isAuthenticated() {
   // TODO
@@ -54,7 +47,7 @@ class App extends Component {
                 <Link to="/">Home</Link>
               </Menu.Item>
               <Menu.Item as="a">
-                <Link to="/profile">Profile</Link>
+                <Link to="/account">Account</Link>
               </Menu.Item>
               <Menu.Item position="right">
                 <Button as="a" inverted={!fixed}>
@@ -87,7 +80,8 @@ class App extends Component {
         >
           <Switch>
             <Route exact path="/" component={HomeScreen} />
-            <Route path="/profile" component={ProfileScreen} />
+            <Route path="/profile/:login" component={ProfileScreen} />
+            <Route path="/account" component={AccountScreen} />
           </Switch>
         </div>
       </div>
