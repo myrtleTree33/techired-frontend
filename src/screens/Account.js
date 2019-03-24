@@ -8,17 +8,18 @@ class AccountScreen extends Component {
   constructor(props) {
     super(props);
     this.state = { authenticated: null };
+
     this.checkAuthentication = this.checkAuthentication.bind(this);
-    this.checkAuthentication();
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
+
+    this.checkAuthentication();
   }
 
   async checkAuthentication() {
-    const authenticated = await this.props.auth.isAuthenticated();
-    if (authenticated !== this.state.authenticated) {
-      this.setState({ authenticated });
-    }
+    const { auth } = this.props;
+    const authenticated = await auth.isAuthenticated();
+    this.setState({ authenticated });
   }
 
   componentDidUpdate() {
@@ -26,13 +27,15 @@ class AccountScreen extends Component {
   }
 
   async login() {
+    const { auth } = this.props;
     // Redirect to '/' after login
-    this.props.auth.login('/');
+    auth.login('/');
   }
 
   async logout() {
+    const { auth } = this.props;
     // Redirect to '/' after logout
-    this.props.auth.logout('/');
+    auth.logout('/');
   }
 
   render() {
