@@ -7,6 +7,34 @@ import Results from './results/Results';
 
 const { REACT_APP_API_URL } = process.env;
 
+function processQuery(query) {
+  const output = {};
+  try {
+    const tokens = query.match(/(?:[^\s"]+|"[^"]*")+/g);
+    const t = [];
+    console.log(tokens);
+    for (let i = 0; i < tokens.length; i++) {
+      const tokens2 = tokens[i].split(':');
+      const param = tokens2[0].trim();
+      const args = tokens2[1].trim().replace(/"/g, '');
+      console.log(param, args);
+
+      if (param === 'location') {
+        output.location = args;
+      } else if (param.startsWith('lang')) {
+        const currLang = param.split('.')[1].trim();
+        output.ownedReposLangsMonths = output.ownedReposLangsMonths || {};
+        output.ownedReposLangsMonths[currLang] = parseInt(
+          args.replace(/"/g, '')
+        );
+      }
+    }
+    return output;
+  } catch (e) {
+    return null;
+  }
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -22,10 +50,23 @@ class App extends Component {
 
   async componentDidMount() {}
 
-  async getQuery({ location = '' }) {
-    const res = await fetch(
-      `${REACT_APP_API_URL}/supersearch?location=${location}&page=1`
-    );
+  async getQuery({ query = '' }) {
+    // TODO split query here ----------------------------
+    const searchQuery = processQuery(query);
+    if (!searchQuery) {
+      return;
+    }
+
+    console.log({ ...searchQuery, page: 1 });
+
+    const res = await fetch(`${REACT_APP_API_URL}/supersearch`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ...searchQuery, page: 1 })
+    });
     const resJson = await res.json();
     console.log(resJson);
     this.setState({
@@ -53,12 +94,12 @@ class App extends Component {
 
       // else continue query
       (async () => {
-        await this.getQuery({ location: query });
+        await this.getQuery({ query });
         this.setState({
           isLoading: false
         });
       })();
-    }, 700);
+    }, 1000);
     // TODO then change results here
   }
 
