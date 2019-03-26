@@ -8,6 +8,8 @@ import './App.css';
 import HomeScreen from './screens/Home';
 import ProfileScreen from './screens/Profile';
 import AccountScreen from './screens/Account';
+import LogoutScreen from './screens/Logout';
+import LoginWidget from './components/LoginWidget/LoginWidget';
 
 const { REACT_APP_OKTA_CLIENT_ID, REACT_APP_OKTA_ORG_URL } = process.env;
 
@@ -30,10 +32,6 @@ const config = {
 // };
 
 class App extends Component {
-  /**
-   * Allows the creation of a protected route, if the user is not signed in.
-   * @param {*} param0
-   */
   render() {
     const fixed = true;
     return (
@@ -58,18 +56,9 @@ class App extends Component {
                 <Menu.Item as="a">
                   <Link to="/account">Account</Link>
                 </Menu.Item>
+
                 <Menu.Item position="right">
-                  <Button as="a" inverted={!fixed}>
-                    Log in
-                  </Button>
-                  <Button
-                    as="a"
-                    inverted={!fixed}
-                    primary={fixed}
-                    style={{ marginLeft: '0.5em' }}
-                  >
-                    Sign Up
-                  </Button>
+                  <LoginWidget />
                 </Menu.Item>
               </Container>
             </Menu>
@@ -93,6 +82,7 @@ class App extends Component {
 
               <Route path="/profile/:login" component={ProfileScreen} />
               <Route path="/account" component={AccountScreen} />
+              <Route path="/logout" component={LogoutScreen} />
             </Switch>
           </div>
         </div>
