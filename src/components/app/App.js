@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import SearchString from 'search-string';
 import { Container } from 'semantic-ui-react';
 
 import Search from './search/Search';
