@@ -21,6 +21,7 @@ const Result = ({ result }) => {
   const {
     login,
     name,
+    company,
     blog,
     bio,
     location,
@@ -38,7 +39,9 @@ const Result = ({ result }) => {
       {/* <Link to={`/profile/${login}`}> */}
       <div>
         <Image src={profilePic} avatar />
-        <span>{login}</span>
+        <span>
+          {login} {name ? `(${name})` : ''}
+        </span>
       </div>
 
       <div
@@ -75,10 +78,10 @@ const Result = ({ result }) => {
       </div>
 
       <div>
-        {ownedReposLangsArr.map(a => (
+        {ownedReposLangsArr.map((a, i) => (
           <Label
             as="a"
-            color="red"
+            color={i < 7 && a.count > 1 ? 'red' : null}
             image
             style={{
               margin: '.5rem',

@@ -5,8 +5,8 @@ import Result from './result/Result';
 const Results = ({ results = [] }) => {
   return (
     <div>
-      {results.map(r => (
-        <Result result={r} />
+      {results.map((r, i) => (
+        <Result result={r} key={i} />
       ))}
     </div>
   );
