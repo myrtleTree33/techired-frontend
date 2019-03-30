@@ -13,12 +13,10 @@ function processQuery(query) {
   try {
     const tokens = query.match(/(?:[^\s"]+\s*|"[^"]*")+/g);
     const t = [];
-    console.log(tokens);
     for (let i = 0; i < tokens.length; i++) {
       const tokens2 = tokens[i].split(':');
       const param = tokens2[0].trim();
       const args = tokens2[1].trim().replace(/"/g, '');
-      console.log(param, args);
 
       if (param === 'location') {
         output.location = args;
@@ -28,6 +26,11 @@ function processQuery(query) {
         output.ownedReposLangsMonths[currLang] = parseInt(
           args.replace(/"/g, '')
         );
+      } else if (param === 'distance') {
+        output.distance = parseInt(args);
+      } else if (param === 'city') {
+        const city = args.trim().toLowerCase();
+        output.cities = [city];
       }
     }
     return output;
