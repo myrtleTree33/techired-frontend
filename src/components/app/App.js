@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import SearchString from 'search-string';
 import { Container } from 'semantic-ui-react';
 
 import Search from './search/Search';
@@ -9,8 +10,9 @@ const { REACT_APP_API_URL } = process.env;
 
 function processQuery(query) {
   const output = {};
+
   try {
-    const tokens = query.match(/(?:[^\s"]+|"[^"]*")+/g);
+    const tokens = query.match(/(?:[^\s"]+\s*|"[^"]*")+/g);
     const t = [];
     console.log(tokens);
     for (let i = 0; i < tokens.length; i++) {
