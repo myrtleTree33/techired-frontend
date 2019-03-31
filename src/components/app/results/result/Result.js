@@ -19,12 +19,12 @@ function flattenObjPopularity(obj) {
 
 function genLabels(followers, starredRepos, ownedRepos) {
   const output = [];
-  if (followers.length > 50) {
-    output.push('Influencer');
+  if (followers.length > 150) {
+    output.push('Rockstar-influencer');
   } else if (followers.length > 100) {
     output.push('Mega-influencer');
-  } else if (followers.length > 100) {
-    output.push('Rockstar-influencer');
+  } else if (followers.length > 50) {
+    output.push('Influencer');
   }
 
   // if (starredRepos.length > 20) {
