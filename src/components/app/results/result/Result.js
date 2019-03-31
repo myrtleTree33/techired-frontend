@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import _ from 'lodash';
 
-import { Label, Segment, Image } from 'semantic-ui-react';
+import { Icon, Label, Segment, Image } from 'semantic-ui-react';
 
 function flattenObjPopularity(obj) {
   // remove null key
@@ -15,6 +15,39 @@ function flattenObjPopularity(obj) {
   });
   // return _.orderBy(arr, 'count', 'desc').slice(0, 8);
   return _.orderBy(arr, 'count', 'desc');
+}
+
+function genLabels(followers, starredRepos, ownedRepos) {
+  const output = [];
+  if (followers.length > 50) {
+    output.push('Influencer');
+  } else if (followers.length > 100) {
+    output.push('Mega-influencer');
+  } else if (followers.length > 100) {
+    output.push('Rockstar-influencer');
+  }
+
+  // if (starredRepos.length > 20) {
+  //   output.push('Learner');
+  // } else if (starredRepos.length > 40) {
+  //   output.push('Mega-learner');
+  // } else if (starredRepos.length > 70) {
+  //   output.push('Rockstar-learner');
+  // }
+
+  // if (starredRepos.length > 10) {
+  //   output.push('Coder');
+  // } else if (starredRepos.length > 30) {
+  //   output.push('Mega-coder');
+  // } else if (starredRepos.length > 50) {
+  //   output.push('Rockstar-coder');
+  // }
+
+  if (output.length === 0) {
+    return null;
+  }
+
+  return output.join(', ');
 }
 
 const Result = ({ result }) => {
@@ -33,9 +66,17 @@ const Result = ({ result }) => {
   } = result;
 
   const ownedReposLangsArr = flattenObjPopularity(ownedReposLangs);
+  const labels = genLabels(followerLogins, starredRepoIds, ownedRepoIds);
 
   return (
     <Segment>
+      {labels ? (
+        <Label attached="top right" color="orange">
+          {labels} <Icon name="star" />
+        </Label>
+      ) : (
+        ''
+      )}
       {/* <Link to={`/profile/${login}`}> */}
       <div>
         <Image src={profilePic} avatar />

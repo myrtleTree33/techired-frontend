@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
-import { Container } from 'semantic-ui-react';
+import { Container, Ref, Sticky } from 'semantic-ui-react';
 import InfiniteScroll from 'react-infinite-scroller';
 import _ from 'lodash';
 import { Segment, Dimmer, Loader } from 'semantic-ui-react';
@@ -42,15 +42,6 @@ function processQuery(query) {
   }
 }
 
-class InfiniteScrollExtend extends InfiniteScroll {
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.pageStart !== this.props.pageStart) {
-      this.pageLoaded = 0;
-    }
-    this.attachScrollListener();
-  }
-}
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -61,6 +52,7 @@ class App extends Component {
       hasMoreItems: true,
       currPage: 0
     };
+    this.contextRef = createRef();
 
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.getQuery = this.getQuery.bind(this);
@@ -138,37 +130,50 @@ class App extends Component {
   render() {
     const { results, query, isLoading, hasMoreItems, currPage } = this.state;
     return (
-      <div>
-        <Container>
-          <Search
-            onSearchChange={this.handleSearchChange}
-            onResultSelect={this.onResultSelect}
-            isLoading={isLoading}
-            query={query}
-          />
-          <InfiniteScroll
-            ref={scroll => {
-              this.scroll = scroll;
-            }}
-            pageStart={currPage}
-            loadMore={this.paginate}
-            hasMore={hasMoreItems}
-            loader={
-              <Segment
-                basic
-                style={{
-                  marginTop: '2rem'
-                }}
-              >
-                <Loader active key={0}>
-                  Loading...
-                </Loader>
-              </Segment>
-            }
-          >
-            <Results results={results} />
-          </InfiniteScroll>
-        </Container>
+      <div
+        style={{
+          marginTop: '3.2rem'
+        }}
+      >
+        <Ref innerRef={this.contextRef}>
+          <Container>
+            <Sticky
+              context={this.contextRef}
+              style={{
+                margin: ' 2rem 0'
+              }}
+            >
+              <Search
+                onSearchChange={this.handleSearchChange}
+                onResultSelect={this.onResultSelect}
+                isLoading={isLoading}
+                query={query}
+              />
+            </Sticky>
+            <InfiniteScroll
+              ref={scroll => {
+                this.scroll = scroll;
+              }}
+              pageStart={currPage}
+              loadMore={this.paginate}
+              hasMore={hasMoreItems}
+              loader={
+                <Segment
+                  basic
+                  style={{
+                    marginTop: '2rem'
+                  }}
+                >
+                  <Loader active key={0}>
+                    Loading...
+                  </Loader>
+                </Segment>
+              }
+            >
+              <Results results={results} />
+            </InfiniteScroll>
+          </Container>
+        </Ref>
       </div>
     );
   }
