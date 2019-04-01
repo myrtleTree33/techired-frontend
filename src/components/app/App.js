@@ -145,7 +145,7 @@ class App extends Component {
             >
               <Search
                 onSearchChange={this.handleSearchChange}
-                onResultSelect={this.onResultSelect}
+                // onResultSelect={this.onResultSelect}
                 isLoading={isLoading}
                 query={query}
               />
