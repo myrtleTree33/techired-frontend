@@ -9,7 +9,7 @@ const SearchComp = ({ query, isLoading, onSearchChange, onResultSelect }) => {
     <Segment>
       <Search
         input={{ fluid: true }}
-        placeholder={`e.g.   lang.JavaScript: "48" distance: "50000" city: "Hong Kong" `}
+        placeholder={`e.g.   lang.JavaScript: "48" distance: "50000" city: "Hong Kong" numFollowers: "50, 100" numFollowing: "50, 70" `}
         size="big"
         loading={isLoading}
         onResultSelect={onResultSelect}

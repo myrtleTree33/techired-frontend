@@ -12,17 +12,19 @@ class AccountScreen extends Component {
     this.checkAuthentication = this.checkAuthentication.bind(this);
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
-
-    this.checkAuthentication();
   }
 
   async checkAuthentication() {
     const { auth } = this.props;
     const authenticated = await auth.isAuthenticated();
     this.setState({ authenticated });
+
+    console.log('--- token ---');
+    console.log(await auth.getAccessToken());
+    console.log(await auth.getUser());
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
     this.checkAuthentication();
   }
 

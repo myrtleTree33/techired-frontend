@@ -10,6 +10,22 @@ import Results from './results/Results';
 
 const { REACT_APP_API_URL } = process.env;
 
+function tokenizeArgs(args) {
+  let containsNan = false;
+  const cleanArgs = args
+    .trim()
+    .split(',')
+    .map(a => {
+      const num = parseInt(a);
+      if (isNaN(num)) {
+        containsNan = true;
+      }
+      return num;
+    });
+
+  return containsNan ? [] : cleanArgs;
+}
+
 function processQuery(query) {
   const output = {};
 
@@ -34,6 +50,12 @@ function processQuery(query) {
       } else if (param === 'city') {
         const city = args.trim().toLowerCase();
         output.cities = [city];
+      } else if (param === 'numFollowers') {
+        const numFollowers = tokenizeArgs(args);
+        output.numFollowers = numFollowers;
+      } else if (param === 'numFollowing') {
+        const numFollowing = tokenizeArgs(args);
+        output.numFollowers = numFollowing;
       }
     }
     return output;
@@ -62,7 +84,6 @@ class App extends Component {
   async componentDidMount() {}
 
   async getQuery({ query = '', page = 1 }) {
-    // TODO split query here ----------------------------
     const searchQuery = processQuery(query);
     if (!searchQuery) {
       return [];
@@ -117,6 +138,7 @@ class App extends Component {
   paginate(page) {
     (async () => {
       const { results, query } = this.state;
+      console.log(page);
       const newResults = await this.getQuery({ query, page });
       this.setState({
         isLoading: false,
