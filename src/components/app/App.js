@@ -42,9 +42,7 @@ function processQuery(query) {
       } else if (param.startsWith('lang')) {
         const currLang = param.split('.')[1].trim();
         output.ownedReposLangsMonths = output.ownedReposLangsMonths || {};
-        output.ownedReposLangsMonths[currLang] = parseInt(
-          args.replace(/"/g, '')
-        );
+        output.ownedReposLangsMonths[currLang] = tokenizeArgs(args);
       } else if (param === 'distance') {
         output.distance = parseInt(args);
       } else if (param === 'city') {
