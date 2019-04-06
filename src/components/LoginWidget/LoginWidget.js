@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withAuth } from '@okta/okta-react';
-import { Button, Container } from 'semantic-ui-react';
+import { Button, Container, Dropdown, Menu } from 'semantic-ui-react';
 
 class LoginWidget extends Component {
   constructor(props) {
@@ -22,7 +22,8 @@ class LoginWidget extends Component {
   async checkAuthentication() {
     const { auth } = this.props;
     const authenticated = await auth.isAuthenticated();
-    this.setState({ authenticated });
+    const user = await auth.getUser();
+    this.setState({ authenticated, user });
   }
 
   async login() {
@@ -36,17 +37,30 @@ class LoginWidget extends Component {
     const { auth } = this.props;
     try {
       auth.logout('/logout');
+      this.setState({
+        user: false,
+        authenticated: false
+      });
     } catch (e) {}
   }
 
   render() {
-    if (this.state.authenticated === null) return null;
+    const { user, authenticated } = this.state;
+
+    if (authenticated === null) return null;
     return (
       <div>
-        {this.state.authenticated ? (
-          <Button as="a" onClick={this.logout}>
-            Logout
-          </Button>
+        {authenticated ? (
+          // <Button as="a" onClick={this.logout}>
+          //   Logout
+          // </Button>
+
+          <Dropdown item text={`${user.name}`}>
+            <Dropdown.Menu>
+              <Dropdown.Item>Settings</Dropdown.Item>
+              <Dropdown.Item onClick={this.logout}>Logout</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         ) : (
           <div>
             {' '}

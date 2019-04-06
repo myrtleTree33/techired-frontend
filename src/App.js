@@ -8,6 +8,7 @@ import './App.css';
 import HomeScreen from './screens/Home';
 import ProfileScreen from './screens/Profile';
 import AccountScreen from './screens/Account';
+import FooterScreen from './screens/Footer';
 import LogoutScreen from './screens/Logout';
 import LoginWidget from './components/LoginWidget/LoginWidget';
 
@@ -40,7 +41,12 @@ class App extends Component {
         client_id={config.client_id}
         redirect_uri={config.redirect_uri}
       >
-        <div className="App">
+        <div
+          className="App"
+          style={{
+            minHeight: '90vh'
+          }}
+        >
           <Segment>
             <Menu
               fixed="top"
@@ -57,9 +63,9 @@ class App extends Component {
                   <Link to="/account">Account</Link>
                 </Menu.Item>
 
-                <Menu.Item position="right">
+                <Menu.Menu position="right">
                   <LoginWidget />
-                </Menu.Item>
+                </Menu.Menu>
               </Container>
             </Menu>
           </Segment>
@@ -86,6 +92,7 @@ class App extends Component {
             </Switch>
           </div>
         </div>
+        <FooterScreen />
       </Security>
     );
   }
