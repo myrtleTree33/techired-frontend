@@ -50,7 +50,7 @@ function genLabels(followers, starredRepos, ownedRepos) {
   return output.join(', ');
 }
 
-const Result = ({ result }) => {
+const Result = ({ result, id }) => {
   const {
     login,
     name,
@@ -69,7 +69,7 @@ const Result = ({ result }) => {
   const labels = genLabels(followerLogins, starredRepoIds, ownedRepoIds);
 
   return (
-    <Segment>
+    <Segment key={id}>
       {labels ? (
         <Label attached="top right" color="orange">
           {labels} <Icon name="star" />
@@ -134,6 +134,7 @@ const Result = ({ result }) => {
       <div>
         {ownedReposLangsArr.map((a, i) => (
           <Label
+            key={i}
             as="a"
             color={i < 7 && a.count > 1 ? 'red' : null}
             image

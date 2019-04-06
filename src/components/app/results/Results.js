@@ -6,7 +6,7 @@ const Results = ({ results = [] }) => {
   return (
     <div>
       {results.map((r, i) => (
-        <Result result={r} key={i} />
+        <Result result={r} id={i} />
       ))}
     </div>
   );
