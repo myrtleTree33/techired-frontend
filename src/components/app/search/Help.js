@@ -35,15 +35,15 @@ class Help extends Component {
         }}
       >
         <a onClick={this.triggerHelp}>
-          <code>Help</code>
+          <code>Help {'>'}</code>
         </a>
         <Modal size="tiny" open={this.state.open} onClose={this.triggerClose}>
-          <Modal.Header>Help</Modal.Header>
+          <Modal.Header>Help Snippets</Modal.Header>
           <Modal.Content>
             <HelpEntry
               query={`location: "singapore" lang.JavaScript: "0, 36" `}
               description={`
-        Find developers in Singapore, with 36 months of experience in
+        Find developers in Singapore, with between 0 to 36 months of experience in
         JavaScript.
       `}
             />

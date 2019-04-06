@@ -101,7 +101,17 @@ const Result = ({ result }) => {
           margin: '1.7rem 0'
         }}
       >
-        Location: {location}
+        <span>Location: {location}</span>
+        <span
+          style={{
+            marginLeft: '2rem'
+          }}
+        >
+          <a href={`https://github.com/${login}`} target="_blank">
+            <Icon name="github square" />
+            GitHub
+          </a>
+        </span>
       </div>
 
       <div>
