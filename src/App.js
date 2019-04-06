@@ -59,10 +59,6 @@ class App extends Component {
                 <Menu.Item as="a">
                   <Link to="/">Home</Link>
                 </Menu.Item>
-                <Menu.Item as="a">
-                  <Link to="/account">Account</Link>
-                </Menu.Item>
-
                 <Menu.Menu position="right">
                   <LoginWidget />
                 </Menu.Menu>
@@ -77,11 +73,7 @@ class App extends Component {
         /> */}
 
           {/* This is the main body */}
-          <div
-            style={{
-              marginTop: '3rem'
-            }}
-          >
+          <div>
             <Switch>
               <Route exact path="/" component={HomeScreen} />
               <Route path="/implicit/callback" component={ImplicitCallback} />

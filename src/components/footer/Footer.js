@@ -20,8 +20,7 @@ const Footer = () => {
         // color: colorThemes.color1,
         color: colorThemes.color0,
         padding: '2rem 0',
-        textAlign: 'center',
-        marginTop: '2rem'
+        textAlign: 'center'
       }}
     >
       <Container>Techired.</Container>

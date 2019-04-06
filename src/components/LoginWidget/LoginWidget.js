@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withAuth } from '@okta/okta-react';
+import { Link } from 'react-router-dom';
 import { Button, Container, Dropdown, Menu } from 'semantic-ui-react';
 
 class LoginWidget extends Component {
@@ -57,7 +58,9 @@ class LoginWidget extends Component {
 
           <Dropdown item text={`${user.name}`}>
             <Dropdown.Menu>
-              <Dropdown.Item>Settings</Dropdown.Item>
+              <Dropdown.Item>
+                <Link to="/account">Account</Link>
+              </Dropdown.Item>
               <Dropdown.Item onClick={this.logout}>Logout</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

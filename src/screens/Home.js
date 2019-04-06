@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Home from '../components/home/Home';
+import Splash from '../components/splash/Splash';
 import withAuth from '@okta/okta-react/dist/withAuth';
 
 class HomeScreen extends Component {
@@ -24,7 +25,7 @@ class HomeScreen extends Component {
 
   render() {
     const { authenticated } = this.state;
-    return authenticated ? <Home /> : <div>not logged in</div>;
+    return authenticated ? <Home /> : <Splash />;
   }
 }
 
