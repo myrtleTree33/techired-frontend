@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import { Search, Segment } from 'semantic-ui-react';
+import Help from './Help';
 
 const SearchComp = ({ query, isLoading, onSearchChange, onResultSelect }) => {
   return (
@@ -18,6 +19,7 @@ const SearchComp = ({ query, isLoading, onSearchChange, onResultSelect }) => {
         value={query}
         showNoResults={false}
       />
+      <Help open={false} />
     </Segment>
   );
 };

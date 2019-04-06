@@ -83,6 +83,9 @@ const Result = ({ result }) => {
         <span>
           {login} {name ? `(${name})` : ''}
         </span>
+        <span>
+          <b>{company ? ` Works at: ${company}` : ''}</b>
+        </span>
       </div>
 
       <div
