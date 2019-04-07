@@ -12,6 +12,8 @@ import FooterScreen from './screens/Footer';
 import LogoutScreen from './screens/Logout';
 import LoginWidget from './components/LoginWidget/LoginWidget';
 
+import logo from './techired-logo-black.png';
+
 const { REACT_APP_OKTA_CLIENT_ID, REACT_APP_OKTA_ORG_URL } = process.env;
 
 const config = {
@@ -48,16 +50,18 @@ class App extends Component {
           }}
         >
           <Segment>
-            <Menu
-              fixed="top"
-              inverted={!fixed}
-              pointing={!fixed}
-              secondary={!fixed}
-              size="large"
-            >
+            <Menu fixed="top" pointing={!fixed} secondary={!fixed} size="large">
               <Container>
                 <Menu.Item as="a">
-                  <Link to="/">Home</Link>
+                  <Link to="/">
+                    <img
+                      src={logo}
+                      alt="logo"
+                      style={{
+                        maxHeight: '1rem'
+                      }}
+                    />
+                  </Link>
                 </Menu.Item>
                 <Menu.Menu position="right">
                   <LoginWidget />

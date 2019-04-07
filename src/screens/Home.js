@@ -11,6 +11,7 @@ class HomeScreen extends Component {
     this.state = { authenticated: null };
 
     this.checkAuthentication = this.checkAuthentication.bind(this);
+    this.login = this.login.bind(this);
   }
 
   async checkAuthentication() {
@@ -23,9 +24,16 @@ class HomeScreen extends Component {
     await this.checkAuthentication();
   }
 
+  async login() {
+    const { auth } = this.props;
+    try {
+      auth.login('/');
+    } catch (e) {}
+  }
+
   render() {
     const { authenticated } = this.state;
-    return authenticated ? <Home /> : <Splash />;
+    return authenticated ? <Home /> : <Splash onLogin={this.login} />;
   }
 }
 
