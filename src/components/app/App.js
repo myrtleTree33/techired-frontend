@@ -7,6 +7,7 @@ import { Segment, Dimmer, Loader } from 'semantic-ui-react';
 
 import Search from './search/Search';
 import Results from './results/Results';
+import { Auth } from '@okta/okta-react';
 
 const { REACT_APP_API_URL } = process.env;
 
@@ -87,16 +88,39 @@ class App extends Component {
       return [];
     }
 
-    const res = await fetch(`${REACT_APP_API_URL}/supersearch`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ ...searchQuery, page })
-    });
-    const results = await res.json();
-    return results;
+    // get access token
+    const accessToken = sessionStorage.getItem('accessToken');
+
+    // make request
+    try {
+      const res = await fetch(`${REACT_APP_API_URL}/supersearch`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({ ...searchQuery, page })
+      });
+
+      // throw error is not 200
+      if (res.status !== 200) {
+        throw new Error(res.status);
+      }
+
+      const results = await res.json();
+      return results;
+    } catch (err) {
+      console.error(
+        'Unable to retrieve results!  Logging out and redirecting back to main page.'
+      );
+
+      // force a logout
+      try {
+        await this.props.auth.logout('/');
+        document.location.reload();
+      } catch (e) {}
+    }
   }
 
   handleSearchChange(e, { value }) {

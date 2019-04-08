@@ -33,7 +33,11 @@ class HomeScreen extends Component {
 
   render() {
     const { authenticated } = this.state;
-    return authenticated ? <Home /> : <Splash onLogin={this.login} />;
+    return authenticated ? (
+      <Home auth={this.props.auth} />
+    ) : (
+      <Splash onLogin={this.login} />
+    );
   }
 }
 

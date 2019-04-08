@@ -24,6 +24,8 @@ class LoginWidget extends Component {
     const { auth } = this.props;
     const authenticated = await auth.isAuthenticated();
     const user = await auth.getUser();
+    const accessToken = await auth.getAccessToken();
+    sessionStorage.setItem('accessToken', accessToken);
     this.setState({ authenticated, user });
   }
 
@@ -37,11 +39,12 @@ class LoginWidget extends Component {
   async logout() {
     const { auth } = this.props;
     try {
-      auth.logout('/logout');
+      await this.props.auth.logout('/');
       this.setState({
         user: false,
         authenticated: false
       });
+      document.location.reload();
     } catch (e) {}
   }
 
@@ -70,7 +73,12 @@ class LoginWidget extends Component {
             <Button onClick={this.login} as="a">
               Login
             </Button>
-            <Button as="a" primary style={{ marginLeft: '0.5em' }}>
+            <Button
+              onClick={this.login}
+              as="a"
+              primary
+              style={{ marginLeft: '0.5em' }}
+            >
               Sign Up
             </Button>
           </div>
