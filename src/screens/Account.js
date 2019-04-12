@@ -21,6 +21,7 @@ class AccountScreen extends Component {
 
     console.log('--- token ---');
     console.log(await auth.getAccessToken());
+    console.log('--- user ---');
     console.log(await auth.getUser());
   }
 
@@ -42,9 +43,15 @@ class AccountScreen extends Component {
 
   render() {
     if (this.state.authenticated === null) return null;
+
+    // TODO retrieve from backend
+    const account = {
+      email: 'me@bla.org'
+    };
+
     return (
       <div>
-        <Account />
+        <Account account={account} />
         {this.state.authenticated ? (
           <button onClick={this.logout}>Logout</button>
         ) : (
