@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import _ from 'lodash';
 
-import { Icon, Label, Segment, Image } from 'semantic-ui-react';
+import { Icon, Label, Segment, Image, Button } from 'semantic-ui-react';
 
 function flattenObjPopularity(obj) {
   // remove null key
@@ -110,6 +110,20 @@ const Result = ({ result, id }) => {
           <a href={`https://github.com/${login}`} target="_blank">
             <Icon name="github square" />
             GitHub
+          </a>
+        </span>
+
+        <span
+          style={{
+            marginLeft: '2rem'
+          }}
+        >
+          <a
+            href={`https://www.linkedin.com/search/results/people/?keywords=${name}`}
+            target="_blank"
+          >
+            <Icon name="linkedin square" />
+            LinkedIn
           </a>
         </span>
       </div>
