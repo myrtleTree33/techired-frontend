@@ -49,6 +49,12 @@ function processQuery(query) {
       } else if (param === 'city') {
         const city = args.trim().toLowerCase();
         output.cities = [city];
+      } else if (param === 'company') {
+        const company = args.trim().toLowerCase();
+        output.company = [company];
+      } else if (param === 'bio') {
+        const bio = args.trim().toLowerCase();
+        output.bio = [bio];
       } else if (param === 'numFollowers') {
         const numFollowers = tokenizeArgs(args);
         output.numFollowers = numFollowers;
