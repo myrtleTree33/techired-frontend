@@ -55,7 +55,7 @@ const Splash = props => {
               marginTop: '.5rem'
             }}
           >
-            Less bullshit . Hire developers . Get stuff done .
+            Hire faster. Hire better. Get stuff done.
           </div>
           <div
             style={{

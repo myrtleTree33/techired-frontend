@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
-import { Container, Ref, Sticky } from 'semantic-ui-react';
+import { Container, Ref, Sticky, Grid } from 'semantic-ui-react';
 import InfiniteScroll from 'react-infinite-scroller';
 import _ from 'lodash';
 import { Segment, Dimmer, Loader } from 'semantic-ui-react';
@@ -8,6 +8,7 @@ import { Segment, Dimmer, Loader } from 'semantic-ui-react';
 import Search from './search/Search';
 import Results from './results/Results';
 import { Auth } from '@okta/okta-react';
+import Filters from './search/Filters';
 
 const { REACT_APP_API_URL } = process.env;
 
@@ -77,21 +78,65 @@ class App extends Component {
       query: '',
       isLoading: false,
       hasMoreItems: true,
-      currPage: 0
+      currPage: 0,
+      overrideFilters: undefined
     };
     this.contextRef = createRef();
 
+    this.handleRefineSearch = this.handleRefineSearch.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.getQuery = this.getQuery.bind(this);
     this.paginate = this.paginate.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   async componentDidMount() {}
 
-  async getQuery({ query = '', page = 1 }) {
-    const searchQuery = processQuery(query);
-    if (!searchQuery) {
+  handleChange(tag, v) {
+    console.log(tag);
+    console.log(v);
+  }
+
+  async handleRefineSearch(searchFilters) {
+    const { query } = this.state;
+
+    // reset search state
+    this.setState({
+      isLoading: true,
+      // reset page and hasMoreItems
+      hasMoreItems: true,
+      currPage: 0,
+      results: []
+    });
+
+    this.scroll.pageLoaded = 1;
+
+    this.setState({
+      overrideFilters: searchFilters
+    });
+
+    // set results
+    const results = await this.getQuery({
+      query,
+      overrideFilters: searchFilters
+    });
+
+    // set new result
+    this.setState({
+      isLoading: false,
+      results
+    });
+  }
+
+  async getQuery({ query = '', page = 1, overrideFilters }) {
+    let searchQuery = processQuery(query);
+    if (!searchQuery && !overrideFilters) {
       return [];
+    }
+
+    // Add additional filters if present
+    if (overrideFilters) {
+      searchQuery = { ...searchQuery, ...overrideFilters };
     }
 
     // get access token
@@ -165,9 +210,9 @@ class App extends Component {
 
   paginate(page) {
     (async () => {
-      const { results, query } = this.state;
+      const { results, query, overrideFilters } = this.state;
       console.log(page);
-      const newResults = await this.getQuery({ query, page });
+      const newResults = await this.getQuery({ query, page, overrideFilters });
       this.setState({
         isLoading: false,
         hasMoreItems: newResults && newResults.length > 0 && page <= 10,
@@ -187,41 +232,53 @@ class App extends Component {
       >
         <Ref innerRef={this.contextRef}>
           <Container>
-            <Sticky
-              context={this.contextRef}
-              style={{
-                margin: ' 2rem 0'
-              }}
-            >
-              <Search
-                onSearchChange={this.handleSearchChange}
-                onResultSelect={this.onResultSelect}
-                isLoading={isLoading}
-                query={query}
-              />
-            </Sticky>
-            <InfiniteScroll
-              ref={scroll => {
-                this.scroll = scroll;
-              }}
-              pageStart={currPage}
-              loadMore={this.paginate}
-              hasMore={hasMoreItems}
-              loader={
-                <Segment
-                  basic
+            <Grid>
+              <Grid.Column width={4}>
+                <Sticky context={this.contextRef} offset={70} pushing>
+                  <Filters
+                    onChange={this.handleChange}
+                    onRefineSearch={this.handleRefineSearch}
+                  />
+                </Sticky>
+              </Grid.Column>
+              <Grid.Column width={12}>
+                {/* <Sticky
+                  context={this.contextRef}
                   style={{
-                    marginTop: '2rem'
+                    margin: ' 2rem 0'
                   }}
                 >
-                  <Loader active key={0}>
-                    Loading...
-                  </Loader>
-                </Segment>
-              }
-            >
-              <Results results={results} />
-            </InfiniteScroll>
+                  <Search
+                    onSearchChange={this.handleSearchChange}
+                    onResultSelect={this.onResultSelect}
+                    isLoading={isLoading}
+                    query={query}
+                  />
+                </Sticky> */}
+                <InfiniteScroll
+                  ref={scroll => {
+                    this.scroll = scroll;
+                  }}
+                  pageStart={currPage}
+                  loadMore={this.paginate}
+                  hasMore={hasMoreItems}
+                  loader={
+                    <Segment
+                      basic
+                      style={{
+                        marginTop: '2rem'
+                      }}
+                    >
+                      <Loader active key={0}>
+                        Loading...
+                      </Loader>
+                    </Segment>
+                  }
+                >
+                  <Results results={results} />
+                </InfiniteScroll>
+              </Grid.Column>
+            </Grid>
           </Container>
         </Ref>
       </div>
