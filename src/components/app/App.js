@@ -109,7 +109,9 @@ class App extends Component {
       results: []
     });
 
-    this.scroll.pageLoaded = 1;
+    if (this.scroll && this.scroll.pageLoaded) {
+      this.scroll.pageLoaded = 1;
+    }
 
     this.setState({
       overrideFilters: searchFilters
@@ -183,7 +185,9 @@ class App extends Component {
       query: value
     });
 
-    this.scroll.pageLoaded = 1;
+    if (this.scroll && this.scroll.pageLoaded) {
+      this.scroll.pageLoaded = 1;
+    }
 
     setTimeout(() => {
       const { query } = this.state;
@@ -255,28 +259,43 @@ class App extends Component {
                     query={query}
                   />
                 </Sticky> */}
-                <InfiniteScroll
-                  ref={scroll => {
-                    this.scroll = scroll;
-                  }}
-                  pageStart={currPage}
-                  loadMore={this.paginate}
-                  hasMore={hasMoreItems}
-                  loader={
-                    <Segment
-                      basic
-                      style={{
-                        marginTop: '2rem'
-                      }}
-                    >
-                      <Loader active key={0}>
-                        Loading...
-                      </Loader>
-                    </Segment>
-                  }
-                >
-                  <Results results={results} />
-                </InfiniteScroll>
+                {results && results.length > 0 ? (
+                  <InfiniteScroll
+                    ref={scroll => {
+                      this.scroll = scroll;
+                    }}
+                    pageStart={currPage}
+                    loadMore={this.paginate}
+                    hasMore={hasMoreItems}
+                    loader={
+                      <Segment
+                        basic
+                        style={{
+                          marginTop: '2rem'
+                        }}
+                      >
+                        <Loader active key={0}>
+                          Loading...
+                        </Loader>
+                      </Segment>
+                    }
+                  >
+                    <Results results={results} />
+                  </InfiniteScroll>
+                ) : (
+                  <div
+                    style={{
+                      height: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    <div>
+                      <h2>{'<-- '}Search for something?</h2>
+                    </div>
+                  </div>
+                )}
               </Grid.Column>
             </Grid>
           </Container>

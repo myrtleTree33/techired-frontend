@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { Button, Form } from 'semantic-ui-react';
+import { Button, Form, Label } from 'semantic-ui-react';
 import { Slider } from 'react-semantic-ui-range';
 
 class Filters extends Component {
@@ -84,7 +84,16 @@ class Filters extends Component {
 
   render() {
     const { handleChange, handleChange2, handleSubmit } = this;
-    const { lang, city, location, company } = this.state;
+    const {
+      lang,
+      city,
+      location,
+      company,
+      numYears,
+      distance,
+      numFollowers,
+      numFollowing
+    } = this.state;
 
     return (
       <div>
@@ -118,7 +127,18 @@ class Filters extends Component {
                 onChange: v => handleChange('numYears', v)
               }}
             />
-            <p>Years of experience</p>
+            <p>
+              Years of experience
+              <Label
+                circular
+                color="red"
+                style={{
+                  marginLeft: '1rem'
+                }}
+              >
+                {numYears}
+              </Label>
+            </p>
           </Form.Field>
 
           <Form.Field>
@@ -134,14 +154,25 @@ class Filters extends Component {
               color="red"
               inverted={false}
               settings={{
-                start: 2,
+                start: 0,
                 min: 0,
                 max: 50000,
                 step: 1000,
                 onChange: v => handleChange('distance', v)
               }}
             />
-            <p>Distance from city</p>
+            <p>
+              Distance from city
+              <Label
+                circular
+                color="red"
+                style={{
+                  marginLeft: '1rem'
+                }}
+              >
+                {distance / 1000} km
+              </Label>
+            </p>
           </Form.Field>
 
           <Form.Field>
