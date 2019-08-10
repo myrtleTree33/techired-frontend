@@ -11,7 +11,7 @@ class Filters extends Component {
     this.state = {
       numYears: 0,
       lang: undefined,
-      city: undefined,
+      // city: undefined,
       numFollowers: undefined,
       numFollowing: undefined,
       distance: 0,
@@ -120,7 +120,7 @@ class Filters extends Component {
               color="red"
               inverted={false}
               settings={{
-                start: 2,
+                start: 0,
                 min: 0,
                 max: 10,
                 step: 1,
@@ -141,7 +141,7 @@ class Filters extends Component {
             </p>
           </Form.Field>
 
-          <Form.Field>
+          {/* <Form.Field>
             <Form.Input
               placeholder="City"
               name="city"
@@ -173,7 +173,7 @@ class Filters extends Component {
                 {distance / 1000} km
               </Label>
             </p>
-          </Form.Field>
+          </Form.Field> */}
 
           <Form.Field>
             <Slider
@@ -204,7 +204,7 @@ class Filters extends Component {
                 onChange: v => handleChange('numFollowing', v)
               }}
             />
-            <p>Readership</p>
+            <p>Readership of others</p>
           </Form.Field>
 
           <Form.Field>

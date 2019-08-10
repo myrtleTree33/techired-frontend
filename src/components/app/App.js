@@ -7,7 +7,6 @@ import { Segment, Dimmer, Loader } from 'semantic-ui-react';
 
 import Search from './search/Search';
 import Results from './results/Results';
-import { Auth } from '@okta/okta-react';
 import Filters from './search/Filters';
 
 const { REACT_APP_API_URL } = process.env;
@@ -150,8 +149,8 @@ class App extends Component {
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`
+          'Content-Type': 'application/json'
+          // Authorization: `Bearer ${accessToken}`
         },
         body: JSON.stringify({ ...searchQuery, page })
       });
@@ -164,15 +163,7 @@ class App extends Component {
       const results = await res.json();
       return results;
     } catch (err) {
-      console.error(
-        'Unable to retrieve results!  Logging out and redirecting back to main page.'
-      );
-
-      // force a logout
-      try {
-        await this.props.auth.logout('/');
-        document.location.reload();
-      } catch (e) {}
+      console.error('Unable to retrieve results!  Is API Down?');
     }
   }
 
