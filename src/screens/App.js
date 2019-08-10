@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import Home from '../components/home/Home';
 import Splash from '../components/splash/Splash';
 
 class HomeScreen extends Component {
@@ -9,7 +10,7 @@ class HomeScreen extends Component {
   }
 
   render() {
-    return <Splash />;
+    return <Home />;
   }
 }
 

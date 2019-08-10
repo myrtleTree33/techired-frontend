@@ -32,7 +32,7 @@ const LoginScreen = withRouter(props => {
       localStorage.setItem('email', user.email);
       localStorage.setItem('token', token);
 
-      history.push('/');
+      history.push('/app');
 
       // Invalid user
     } catch (e) {

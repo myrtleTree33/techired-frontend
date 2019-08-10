@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'semantic-ui-react';
+import { withRouter } from 'react-router-dom';
 
 import TypedText from './TypedText';
 
 import logo from '../../techired-logo-black.png';
-import { Button } from 'semantic-ui-react';
 
 const Splash = props => {
+  const { history } = props;
+
   // slide one
   const SlideOne = props => {
-    const { onLogin } = props;
     return (
       <div
         style={{
@@ -62,7 +64,19 @@ const Splash = props => {
               margin: '4rem'
             }}
           >
-            <Button size="huge" color="black" onClick={() => onLogin()}>
+            <Button
+              size="huge"
+              color="black"
+              onClick={() => history.push('/login')}
+            >
+              Login
+            </Button>
+
+            <Button
+              size="huge"
+              color="red"
+              onClick={() => history.push('/login')}
+            >
               Sign up
             </Button>
           </div>
@@ -115,7 +129,10 @@ const Splash = props => {
 
   // slide three
   const SlideThree = props => {
-    const { onLogin } = props;
+    const handleSignup = () => {
+      window.location.href = 'https://forms.gle/dZkoDf6bbZW2yyvB7';
+    };
+
     return (
       <div
         style={{
@@ -138,7 +155,7 @@ const Splash = props => {
               marginTop: '4rem'
             }}
           >
-            <Button size="huge" color="black" onClick={() => onLogin()}>
+            <Button size="huge" color="black" onClick={() => handleSignup()}>
               Sign up now
             </Button>
           </div>
@@ -156,4 +173,4 @@ const Splash = props => {
   );
 };
 
-export default Splash;
+export default withRouter(Splash);

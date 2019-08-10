@@ -6,6 +6,7 @@ import ky from 'ky';
 
 import './App.css';
 import HomeScreen from './screens/Home';
+import AppScreen from './screens/App';
 import ProfileScreen from './screens/Profile';
 import FooterScreen from './screens/Footer';
 import LogoutScreen from './screens/Logout';
@@ -69,10 +70,10 @@ class App extends Component {
           }}
         >
           <Switch>
+            <Route exact path="/" component={HomeScreen} />
             <PrivateRoute
-              exact
-              path="/"
-              component={HomeScreen}
+              path="/app"
+              component={AppScreen}
               isAuthenticated={isLoggedIn}
             />
             <Route path="/login" component={LoginScreen} />
