@@ -1,40 +1,35 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { Security, ImplicitCallback } from '@okta/okta-react';
 import { Link, Switch, Route, Redirect, withRouter } from 'react-router-dom';
-import { Button, Container, Menu, Segment } from 'semantic-ui-react';
+import PrivateRoute from 'react-private-route';
+import { Container, Menu, Segment } from 'semantic-ui-react';
+import ky from 'ky';
 
 import './App.css';
 import HomeScreen from './screens/Home';
 import ProfileScreen from './screens/Profile';
 import FooterScreen from './screens/Footer';
 import LogoutScreen from './screens/Logout';
+import LoginScreen from './screens/Login';
 
 import logo from './techired-logo-black.png';
 
-const { REACT_APP_OKTA_CLIENT_ID, REACT_APP_OKTA_ORG_URL } = process.env;
-
-const config = {
-  issuer: `${REACT_APP_OKTA_ORG_URL}/oauth2/default`,
-  redirect_uri: window.location.origin + '/implicit/callback',
-  client_id: `${REACT_APP_OKTA_CLIENT_ID}`
-};
-
-// const PrivateRoute = ({ component: Component, ...rest }) => {
-//   // TODO refactor this if needed
-//   return (
-//     <Route
-//       {...rest}
-//       render={props =>
-//         isAuthenticated() ? <Component {...props} /> : <Redirect to="/login" />
-//       }
-//     />
-//   );
-// };
+const { REACT_APP_API_URL } = process.env;
 
 class App extends Component {
+  getAuthenticated = () => !!localStorage.getItem('token');
+
+  handleLogout = e => {
+    const { history } = this.props;
+    localStorage.removeItem('email');
+    localStorage.removeItem('token');
+    history.push('/login');
+  };
+
   render() {
     const fixed = true;
+
+    const isLoggedIn = this.getAuthenticated();
+
     return (
       <div
         className="App"
@@ -56,16 +51,16 @@ class App extends Component {
                   />
                 </Link>
               </Menu.Item>
-              <Menu.Menu position="right">Login here</Menu.Menu>
+              <Menu.Menu position="right">
+                {isLoggedIn ? (
+                  <div onClick={() => this.handleLogout()}>Logout</div>
+                ) : (
+                  ''
+                )}
+              </Menu.Menu>
             </Container>
           </Menu>
         </Segment>
-        {/* <Segment
-          inverted
-          textAlign="center"
-          style={{ minHeight: 700, padding: '1em 0em' }}
-          vertical
-        /> */}
 
         {/* This is the main body */}
         <div
@@ -74,11 +69,15 @@ class App extends Component {
           }}
         >
           <Switch>
-            <Route exact path="/" component={HomeScreen} />
-            <Route path="/implicit/callback" component={ImplicitCallback} />
-
-            <Route path="/profile/:login" component={ProfileScreen} />
+            <PrivateRoute
+              exact
+              path="/"
+              component={HomeScreen}
+              isAuthenticated={isLoggedIn}
+            />
+            <Route path="/login" component={LoginScreen} />
             <Route path="/logout" component={LogoutScreen} />
+            <Route path="/profile/:login" component={ProfileScreen} />
           </Switch>
         </div>
         <FooterScreen />

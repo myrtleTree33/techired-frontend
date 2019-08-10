@@ -141,7 +141,7 @@ class App extends Component {
     }
 
     // get access token
-    const accessToken = sessionStorage.getItem('accessToken');
+    const token = localStorage.getItem('token');
 
     // make request
     try {
@@ -149,8 +149,8 @@ class App extends Component {
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json'
-          // Authorization: `Bearer ${accessToken}`
+          'Content-Type': 'application/json',
+          Authorization: `JWT ${token}`
         },
         body: JSON.stringify({ ...searchQuery, page })
       });
