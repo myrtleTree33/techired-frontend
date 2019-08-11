@@ -1,21 +1,34 @@
 import React, { useState } from 'react';
 
-import { Container, Segment, Button, Checkbox, Form } from 'semantic-ui-react';
+import { Segment, Message, Form } from 'semantic-ui-react';
 
 const Signin = props => {
+  const [errorText, setErrorText] = useState();
+
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
   const { onLoginUser } = props;
 
+  const handleLoginUser = async ({ email, password }) => {
+    const result = await onLoginUser({ email, password });
+    if (result && result.text) {
+      setErrorText(result.text);
+    }
+  };
+
   return (
-    <Segment
-      style={{
-        minWidth: '350px'
-      }}
-    >
-      <h1>Sign in.</h1>
-      <Form onSubmit={() => onLoginUser({ email, password })}>
+    <Segment basic>
+      <h1>Login</h1>
+      <Form onSubmit={() => handleLoginUser({ email, password })}>
+        {!!errorText ? (
+          <Message negative>
+            <p>{errorText}</p>
+          </Message>
+        ) : (
+          ''
+        )}
+
         <Form.Input
           placeholder="Email"
           name="email"
@@ -25,8 +38,9 @@ const Signin = props => {
 
         <Form.Input
           placeholder="Password"
-          name="Password"
+          name="password"
           value={password}
+          type="password"
           onChange={(e, { value }) => setPassword(value)}
         />
         <Form.Button primary fluid content="Login" />

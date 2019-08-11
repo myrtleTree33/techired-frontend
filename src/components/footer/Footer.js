@@ -18,7 +18,7 @@ const Footer = () => {
       style={{
         backgroundColor: colorThemes.color5,
         // color: colorThemes.color1,
-        color: colorThemes.color0,
+        color: '#fff',
         padding: '2rem 0',
         textAlign: 'center'
       }}

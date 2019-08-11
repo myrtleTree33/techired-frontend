@@ -100,7 +100,7 @@ const Splash = props => {
         <div
           style={{
             maxWidth: '50%',
-            textAlign: 'center'
+            textAlign: 'left'
           }}
         >
           <h2>How it works</h2>
@@ -110,17 +110,13 @@ const Splash = props => {
               lineHeight: '2em'
             }}
           >
-            <ol>
-              <li>
-                Techired collects public information from the web, about
-                developers you should meet.
-              </li>
-              <li>
-                We've build a meta-search engine, for you to find top users
-                easily from their online activity.
-              </li>
-              <li>Curate top developers, and contact them directly.</li>
-            </ol>
+            <p>
+              We've built a search engine that finds top developers based on
+              their public contributions online. To date, we have emassed 3
+              million users through our system.
+            </p>
+
+            <p>Use our system to find top developers directly.</p>
           </div>
         </div>
       </div>
@@ -149,13 +145,14 @@ const Splash = props => {
             textAlign: 'center'
           }}
         >
-          <h2>Not convinced? Give us a spin!</h2>
+          {/* <h2>Not convinced? Give us a spin!</h2> */}
+          <h2>We're in public beta. Try us now.</h2>
           <div
             style={{
               marginTop: '4rem'
             }}
           >
-            <Button size="huge" color="black" onClick={() => handleSignup()}>
+            <Button size="huge" color="red" onClick={() => handleSignup()}>
               Sign up now
             </Button>
           </div>

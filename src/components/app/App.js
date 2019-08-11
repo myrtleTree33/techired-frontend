@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { Container, Ref, Sticky, Grid } from 'semantic-ui-react';
 import InfiniteScroll from 'react-infinite-scroller';
 import _ from 'lodash';
-import { Segment, Dimmer, Loader } from 'semantic-ui-react';
+import { Segment, Loader } from 'semantic-ui-react';
+import { withRouter } from 'react-router-dom';
+import ky from 'ky';
 
-import Search from './search/Search';
 import Results from './results/Results';
 import Filters from './search/Filters';
 
@@ -130,7 +131,9 @@ class App extends Component {
   }
 
   async getQuery({ query = '', page = 1, overrideFilters }) {
+    const { history } = this.props;
     let searchQuery = processQuery(query);
+
     if (!searchQuery && !overrideFilters) {
       return [];
     }
@@ -145,24 +148,28 @@ class App extends Component {
 
     // make request
     try {
-      const res = await fetch(`${REACT_APP_API_URL}/supersearch`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `JWT ${token}`
-        },
-        body: JSON.stringify({ ...searchQuery, page })
-      });
+      const resResults = await ky
+        .post(`${REACT_APP_API_URL}/supersearch`, {
+          headers: {
+            Authorization: `JWT ${token}`
+          },
+          json: { ...searchQuery, page }
+        })
+        .json();
 
-      // throw error is not 200
-      if (res.status !== 200) {
-        throw new Error(res.status);
+      console.log(resResults);
+
+      return resResults;
+    } catch (e) {
+      const { status, statusText } = e.response;
+
+      // Forbidden; Invalid token
+      if (status === 401) {
+        localStorage.removeItem('email');
+        localStorage.removeItem('token');
+        history.push('/');
       }
 
-      const results = await res.json();
-      return results;
-    } catch (err) {
       console.error('Unable to retrieve results!  Is API Down?');
     }
   }
@@ -296,4 +303,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
