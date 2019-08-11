@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
+import React, { Fragment, Component } from 'react';
 import { Link, Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import PrivateRoute from 'react-private-route';
-import { Container, Menu, Segment } from 'semantic-ui-react';
+import { Icon, Container, Menu, Segment } from 'semantic-ui-react';
 import ky from 'ky';
 
 import './App.css';
 import HomeScreen from './screens/Home';
 import AppScreen from './screens/App';
 import ProfileScreen from './screens/Profile';
+import UserScreen from './screens/User';
 import FooterScreen from './screens/Footer';
 import LogoutScreen from './screens/Logout';
 import LoginScreen from './screens/Login';
@@ -54,7 +55,17 @@ class App extends Component {
               </Menu.Item>
               <Menu.Menu position="right">
                 {isLoggedIn ? (
-                  <div onClick={() => this.handleLogout()}>Logout</div>
+                  <Fragment>
+                    <Menu.Item>
+                      <Link to="/user">
+                        <Icon name="user" />
+                        Profile
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item as="a" onClick={() => this.handleLogout()}>
+                      Logout
+                    </Menu.Item>
+                  </Fragment>
                 ) : (
                   ''
                 )}
@@ -78,7 +89,8 @@ class App extends Component {
             />
             <Route path="/login" component={LoginScreen} />
             <Route path="/logout" component={LogoutScreen} />
-            <Route path="/profile/:login" component={ProfileScreen} />
+            {/* <Route path="/profile/:login" component={ProfileScreen} /> */}
+            <Route path="/user" component={UserScreen} />
           </Switch>
         </div>
         <FooterScreen />

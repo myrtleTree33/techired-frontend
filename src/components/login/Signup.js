@@ -14,7 +14,7 @@ const Signup = props => {
 
   const { onCreateNewUser } = props;
 
-  const handleCreateNewUser = ({
+  const handleCreateNewUser = async ({
     firstName,
     lastName,
     email,
@@ -23,7 +23,7 @@ const Signup = props => {
     receivePromos
   }) => {
     console.log(email, password, passwordCfm, receivePromos);
-    const result = onCreateNewUser({
+    const result = await onCreateNewUser({
       firstName,
       lastName,
       email,
@@ -33,13 +33,14 @@ const Signup = props => {
     });
 
     if (result && result.text) {
+      console.log(result);
       setErrorText(result.text);
     }
   };
 
   return (
     <Segment basic>
-      <h1>Sign up.</h1>
+      <h1>Sign up</h1>
       <Form
         onSubmit={() =>
           handleCreateNewUser({
