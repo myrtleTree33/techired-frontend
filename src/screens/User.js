@@ -17,6 +17,7 @@ class UserScreen extends Component {
     const token = localStorage.getItem('token');
 
     if (!token) {
+      history.push('/');
       return;
     }
 
