@@ -43,10 +43,45 @@ class ProfileScreen extends Component {
     }
   };
 
+  getRepos = async profile => {
+    const { history } = this.props;
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      history.push('/');
+      return;
+    }
+
+    // Login user
+    try {
+      const reposRes = await ky
+        .get(`${REACT_APP_API_URL}/profiles/${profile}/repos?page=1`, {
+          headers: {
+            Authorization: `JWT ${token}`
+          }
+        })
+        .json();
+
+      // Return profile
+      return reposRes;
+
+      // Forbidden
+    } catch (e) {
+      // Invalidate email and tokens
+      localStorage.removeItem('email');
+      localStorage.removeItem('token');
+
+      history.push('/');
+    }
+  };
+
   async componentDidMount() {
     const { login } = this.props.match.params;
-    const profile = await this.getProfile(login);
-    this.setState({ profile });
+    const [profile, repos] = await Promise.all([
+      this.getProfile(login),
+      this.getRepos(login)
+    ]);
+    this.setState({ profile, repos });
   }
 
   async componentDidUpdate(prevProps, prevState) {
@@ -64,13 +99,16 @@ class ProfileScreen extends Component {
       return;
     }
 
-    const profile = await this.getProfile(login);
-    this.setState({ profile });
+    const [profile, repos] = await Promise.all([
+      this.getProfile(login),
+      this.getRepos(login)
+    ]);
+    this.setState({ profile, repos });
   }
 
   render() {
-    const { profile } = this.state;
-    return <Profile profile={profile} />;
+    const { profile, repos } = this.state;
+    return <Profile profile={profile} repos={repos} />;
   }
 }
 

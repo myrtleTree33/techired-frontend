@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import _ from 'lodash';
 
@@ -50,7 +50,7 @@ function genLabels(followers, starredRepos, ownedRepos) {
   return output.join(', ');
 }
 
-const Result = ({ result, id }) => {
+const Result = ({ history, result, id }) => {
   const {
     login,
     name,
@@ -67,9 +67,15 @@ const Result = ({ result, id }) => {
 
   const ownedReposLangsArr = flattenObjPopularity(ownedReposLangs);
   const labels = genLabels(followerLogins, starredRepoIds, ownedRepoIds);
+  const handleOnClick = () => {
+    window.open(
+      `/profile/${login}`,
+      '_blank' // <- This is what makes it open in a new window.
+    );
+  };
 
   return (
-    <Segment key={id}>
+    <Segment key={id} onClick={handleOnClick}>
       {labels ? (
         <Label attached="top right" color="orange">
           {labels} <Icon name="star" />
@@ -167,4 +173,4 @@ const Result = ({ result, id }) => {
   );
 };
 
-export default Result;
+export default withRouter(Result);
