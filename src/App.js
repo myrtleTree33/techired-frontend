@@ -89,7 +89,7 @@ class App extends Component {
             />
             <Route path="/login" component={LoginScreen} />
             <Route path="/logout" component={LogoutScreen} />
-            {/* <Route path="/profile/:login" component={ProfileScreen} /> */}
+            <Route path="/profile/:login" component={ProfileScreen} />
             <Route path="/user" component={UserScreen} />
           </Switch>
         </div>
