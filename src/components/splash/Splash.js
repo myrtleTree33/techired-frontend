@@ -112,7 +112,7 @@ const Splash = props => {
           >
             <p>
               We've built a search engine that finds top developers based on
-              their public contributions online. To date, we have emassed 3
+              their public contributions online. To date, we have enmassed 3
               million users through our system.
             </p>
 
