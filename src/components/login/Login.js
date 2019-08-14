@@ -35,6 +35,7 @@ const Login = ({ onCreateNewUser, onLoginUser }) => {
       }}
     >
       <Tab
+        menu={{ secondary: true }}
         panes={panes}
         style={{
           minWidth: '350px',

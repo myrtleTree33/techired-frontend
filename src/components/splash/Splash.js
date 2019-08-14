@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
+import MetaTags from 'react-meta-tags';
 
 import TypedText from './TypedText';
 
 import logo from '../../techired-logo-black.png';
+import { MobileView, BrowserView, isMobile } from 'react-device-detect';
 
 const Splash = props => {
   const { history } = props;
@@ -15,6 +17,7 @@ const Splash = props => {
     return (
       <div
         style={{
+          // padding: '0 2rem',
           background: '#ffd800',
           minHeight: '120vh',
           display: 'flex',
@@ -24,31 +27,34 @@ const Splash = props => {
       >
         <div
           style={{
-            maxWidth: '50%',
+            width: '100%',
             textAlign: 'center'
           }}
         >
-          <TypedText
-            style={{
-              marginBottom: '2rem'
-            }}
-            strings={[
-              'software engineer in Seoul',
-              'CTO in Nepal',
-              'Golang engineer in Kuala Lumpur',
-              'Ruby developer with 2 years of experience in Chiang Mai',
-              'CTO within 10 kilometers of Busan, South Korea',
-              'Java Developer in Hanoi',
-              'C firmware engineer in Bangkok',
-              'C++ hardware engineer in  Shenzhen'
-            ]}
-          />
+          <BrowserView>
+            <TypedText
+              style={{
+                marginBottom: '2rem'
+              }}
+              strings={[
+                'software engineer in Seoul',
+                'CTO in Nepal',
+                'Golang engineer in Kuala Lumpur',
+                'Ruby developer with 2 years of experience in Chiang Mai',
+                'CTO within 10 kilometers of Busan, South Korea',
+                'Java Developer in Hanoi',
+                'C firmware engineer in Bangkok',
+                'C++ hardware engineer in  Shenzhen'
+              ]}
+            />
+          </BrowserView>
           <div>
             <img
               src={logo}
               alt="logo"
               style={{
-                maxWidth: '400px'
+                width: '400px',
+                maxWidth: '80%'
               }}
             />
           </div>
@@ -65,14 +71,19 @@ const Splash = props => {
             }}
           >
             <Button
+              fluid={isMobile}
               size="huge"
               color="black"
               onClick={() => history.push('/login')}
+              style={{
+                marginBottom: '.5rem'
+              }}
             >
               Login
             </Button>
 
             <Button
+              fluid={isMobile}
               size="huge"
               color="red"
               onClick={() => history.push('/login')}
@@ -163,6 +174,12 @@ const Splash = props => {
 
   return (
     <div>
+      <MetaTags>
+        <title>Page 1</title>
+        <meta name="description" content="Techired.  Hire people." />
+        <meta property="og:title" content="Techired.co: Search" />
+        <meta property="og:image" content="../../techired-logo-black.png" />
+      </MetaTags>
       <SlideOne {...props} />
       <SlideTwo {...props} />
       <SlideThree {...props} />

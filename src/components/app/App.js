@@ -6,6 +6,7 @@ import _ from 'lodash';
 import { Segment, Loader } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import ky from 'ky';
+import MetaTags from 'react-meta-tags';
 
 import Results from './results/Results';
 import Filters from './search/Filters';
@@ -232,6 +233,13 @@ class App extends Component {
           marginTop: '3.2rem'
         }}
       >
+        <MetaTags>
+          <title>Page 1</title>
+          <meta name="description" content="Techired.  Hire people." />
+          <meta property="og:title" content="Techired.co: Search" />
+          <meta property="og:image" content="../../techired-logo-black.png" />
+        </MetaTags>
+
         <Ref innerRef={this.contextRef}>
           <Container>
             <Grid>
