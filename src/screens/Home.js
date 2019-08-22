@@ -35,6 +35,7 @@ class HomeScreen extends Component {
 
       // Invalid user
     } catch (e) {
+      console.log(e.response);
       const { status, statusText } = e.response;
       console.log(status, statusText);
 

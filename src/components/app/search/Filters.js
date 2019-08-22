@@ -5,6 +5,8 @@ import _ from 'lodash';
 import { Button, Form, Label } from 'semantic-ui-react';
 import { Slider } from 'react-semantic-ui-range';
 
+import programmingLanguages from './Languages';
+
 class Filters extends Component {
   constructor(props) {
     super(props);
@@ -12,8 +14,8 @@ class Filters extends Component {
       numYears: 0,
       lang: undefined,
       // city: undefined,
-      numFollowers: undefined,
-      numFollowing: undefined,
+      numFollowers: 0,
+      numFollowing: 0,
       distance: 0,
       location: undefined,
       company: undefined
@@ -48,7 +50,6 @@ class Filters extends Component {
       company,
       location
     } = this.state;
-    console.log(this.state);
     let sanitizedQuery = {};
     if (lang && numYears) {
       sanitizedQuery.ownedReposLangsMonths = {};
@@ -76,9 +77,6 @@ class Filters extends Component {
 
     // Remove all falsey (incld. 0) values
     sanitizedQuery = _.pickBy(sanitizedQuery, _.identity);
-    console.log('*******************');
-    console.log(sanitizedQuery);
-    console.log('*******************');
     onRefineSearch(sanitizedQuery);
   }
 
@@ -109,11 +107,17 @@ class Filters extends Component {
 
           <Form.Field>
             <Form.Input
-              placeholder="Language"
+              placeholder="Select programming Language"
               name="lang"
               value={lang}
               onChange={handleChange2}
+              list="languages"
             />
+            <datalist id="languages">
+              {programmingLanguages.map(lang => (
+                <option value={lang} />
+              ))}
+            </datalist>
 
             <Slider
               discrete
@@ -183,12 +187,12 @@ class Filters extends Component {
               settings={{
                 start: 0,
                 min: 0,
-                max: 300,
+                max: 241,
                 step: 1,
                 onChange: v => handleChange('numFollowers', v)
               }}
             />
-            <p>Fanbase</p>
+            <p>Number of followers{` (${numFollowers})`}</p>
           </Form.Field>
 
           <Form.Field>
@@ -199,17 +203,17 @@ class Filters extends Component {
               settings={{
                 start: 0,
                 min: 0,
-                max: 300,
+                max: 241,
                 step: 1,
                 onChange: v => handleChange('numFollowing', v)
               }}
             />
-            <p>Readership of others</p>
+            <p>Number following{` (${numFollowing})`}</p>
           </Form.Field>
 
           <Form.Field>
             <Form.Input
-              placeholder="Company"
+              placeholder="Choose a company"
               name="company"
               value={company}
               onChange={handleChange2}

@@ -149,7 +149,7 @@ class App extends Component {
 
     // make request
     try {
-      const resResults = await ky
+      return ky
         .post(`${REACT_APP_API_URL}/supersearch`, {
           headers: {
             Authorization: `JWT ${token}`
@@ -157,10 +157,6 @@ class App extends Component {
           json: { ...searchQuery, page }
         })
         .json();
-
-      console.log(resResults);
-
-      return resResults;
     } catch (e) {
       const { status, statusText } = e.response;
 
@@ -244,7 +240,7 @@ class App extends Component {
           <Container>
             <Grid>
               <Grid.Column width={4}>
-                <Sticky context={this.contextRef} offset={70} pushing>
+                <Sticky context={this.contextRef} offset={70}>
                   <Filters
                     onChange={this.handleChange}
                     onRefineSearch={this.handleRefineSearch}
