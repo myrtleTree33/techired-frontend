@@ -7,7 +7,7 @@
     "@okta/okta-react": "^1.2.0",
     "ky": "^0.11.2",
     "lodash": "^4.17.11",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "password-validator": "^4.1.2",
     "react": "^16.8.4",
     "react-device-detect": "^1.7.5",
